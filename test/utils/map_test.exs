@@ -1,4 +1,4 @@
-defmodule Utils.MapTest do
+defmodule DryExt.Utils.MapTest do
   use ExUnit.Case
   doctest DryExt.Utils.Map
 

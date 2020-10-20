@@ -1,4 +1,4 @@
-defmodule Utils.StringTest do
+defmodule DryExt.Utils.StringTest do
   use ExUnit.Case
 
   test "length random string" do
