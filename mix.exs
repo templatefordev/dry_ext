@@ -22,7 +22,8 @@ defmodule DryExt.MixProject do
   defp deps do
     [
       {:event_bus, "~> 1.6.1"},
-      {:ecto_sql, "~> 3.4"}
+      {:ecto_sql, "~> 3.4"},
+      {:plug_cowboy, "~> 2.0"}
     ]
   end
 end
