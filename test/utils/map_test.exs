@@ -4,7 +4,7 @@ defmodule DryExt.Utils.MapTest do
 
   import DryExt.Utils.Map
 
-  test "merge map" do
+  test "|||/2 return merge map" do
     map = %{one: "1"} ||| %{two: "2"}
     assert map == %{one: "1", two: "2"}
   end
