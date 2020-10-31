@@ -1,4 +1,6 @@
 defmodule DryExt.Utils.StringTest do
+  @moduledoc false
+
   use ExUnit.Case
 
   test "random/1 return random string by length" do

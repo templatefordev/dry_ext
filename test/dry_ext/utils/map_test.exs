@@ -1,4 +1,6 @@
 defmodule DryExt.Utils.MapTest do
+  @moduledoc false
+
   use ExUnit.Case
   doctest DryExt.Utils.Map
 

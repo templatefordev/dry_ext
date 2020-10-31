@@ -1,4 +1,17 @@
 defmodule DryExt.Events do
+  @moduledoc """
+  EventBus abstraction
+  """
+
+  @doc """
+  Publish a event to EventBus.
+
+  ## Example
+      aliase DryExt.Events
+
+      :ok = Events.publish(:user_created, %{email: "user@example.com"})
+  """
+  @spec publish(any, map()) :: :ok
   def publish(topic, data) do
     %EventBus.Model.Event{
       id: Ecto.UUID.generate(),
@@ -9,9 +22,8 @@ defmodule DryExt.Events do
   end
 
   def notify(event) do
-    with :test <- Mix.env() do
-      instrument(:notify, event)
-    else
+    case Mix.env() do
+      :test -> instrument(:notify, event)
       _ -> event |> notify!()
     end
 

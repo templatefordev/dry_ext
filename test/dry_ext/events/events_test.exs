@@ -1,5 +1,9 @@
 defmodule DryExt.EventsTest do
+  @moduledoc false
+
   defmodule TestSubscriber do
+    @moduledoc false
+
     use DryExt.Events.Subscriber, topics: [".*"]
 
     def handle_event(_topic, _data), do: :ok

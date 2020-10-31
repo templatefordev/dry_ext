@@ -1,4 +1,6 @@
 defmodule DryExt.Plugs.SetReferralCookieTest do
+  @moduledoc false
+
   use ExUnit.Case, async: true
   use Plug.Test
 
