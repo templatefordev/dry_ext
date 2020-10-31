@@ -1,10 +1,12 @@
 defmodule DryExt.MixProject do
   use Mix.Project
 
+  @version "0.2.0"
+
   def project do
     [
       app: :dry_ext,
-      version: "0.2.0",
+      version: @version,
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps()
