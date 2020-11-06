@@ -52,6 +52,8 @@ defmodule DryExt.Plugs.SetReferralCookie do
       halt: 1
     ]
 
+  require Logger
+
   @default_max_age 60 * 60 * 24 * 365
   @default_key "_dry_ext_ref_key"
 
@@ -77,12 +79,15 @@ defmodule DryExt.Plugs.SetReferralCookie do
     |> Keyword.take(Keyword.keys(@defaults_opts))
   end
 
-  def call(%Conn{params: %{"ref" => _}, request_path: path} = conn, _opts)
+  def call(%Conn{params: %{"ref" => ref_code}, request_path: path} = conn, _opts)
       when is_cookie_key(conn.cookies) do
+    Logger.debug(fn -> skip_set_ref_cookie_msg(ref_code) end)
     conn |> redirect(path)
   end
 
   def call(%Conn{params: %{"ref" => ref_code}, request_path: path} = conn, opts) do
+    Logger.debug(fn -> set_ref_cookie_msg(ref_code) end)
+
     conn
     |> put_resp_cookie(key(), %{ref_code: ref_code}, opts)
     |> redirect(path)
@@ -121,8 +126,27 @@ defmodule DryExt.Plugs.SetReferralCookie do
       |> Map.from_struct()
       |> get_in([:cookies, key(), :ref_code])
 
+    Logger.debug(fn -> assign_ref_code_msg(ref_code) end)
+
     assign(conn, :referral_code, ref_code)
   end
 
   def assign_referral_code(conn, _), do: conn
+
+  defp skip_set_ref_cookie_msg(ref_code) do
+    [
+      inspect(__MODULE__),
+      " skip sets referral cookie with ref_code: ",
+      inspect(ref_code),
+      ", because cookie exists"
+    ]
+  end
+
+  defp set_ref_cookie_msg(ref_code) do
+    [inspect(__MODULE__), " sets referral cookie with ref_code: ", inspect(ref_code)]
+  end
+
+  defp assign_ref_code_msg(ref_code) do
+    [inspect(__MODULE__), " assigns referral_code: ", inspect(ref_code), " to conn"]
+  end
 end
