@@ -17,6 +17,18 @@ defmodule DryExt.Plugs.ClientIpTest do
     assert conn.assigns[:client_ip] == nil
   end
 
+  test "not assigns client ip if exists already" do
+    assign_ip = "50.25.15.10"
+
+    conn =
+      conn(:get, "/")
+      |> put_req_header("x-real-ip", @client_ip)
+      |> assign(:client_ip, assign_ip)
+      |> ClientIp.call([])
+
+    assert conn.assigns.client_ip == assign_ip
+  end
+
   test "assigns client_ip from x-real-ip" do
     conn =
       conn(:get, "/")
